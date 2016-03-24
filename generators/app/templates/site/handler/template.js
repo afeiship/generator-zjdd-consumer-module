@@ -27,12 +27,9 @@ module.exports = Base.extend(function () {
   cmdDispatch: function * () {
     var query = this.getQuery();
     var command = query.command;
-    return yield this[command]();
+    return yield this[command](query.data);
   },
   doPOST: function * () {
-    var query = this.getQuery();
-    return yield function () {
-      return 1;
-    }
+    return yield self.cmdDispatch();
   }
 });
