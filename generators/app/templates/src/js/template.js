@@ -41,6 +41,26 @@ require(['ModalView', 'UrlHash', 'DataView'], function (ModalView, UrlHash, Data
         }
       };
     },
+    showToast: function (inText,inCallback) {
+      var self = this;
+      this._$toast.text(inText);
+      this._$toast.data('visible', true);
+      setTimeout(function () {
+        self._$toast.data('visible', false);
+        inCallback && inCallback();
+      }, 3000);
+    },
+    getSMGCode: function (inData) {
+      return self.doAjax('getSMGCode', inData, {
+        success: function (inResp) {
+          var msg = inResp.msg;
+          if (!inResp.code) {
+            msg = 'Test!'
+          }
+          self.showToast(msg);
+        }
+      });
+    },
     doAjax: function (inName, inData, inOptions) {
       $.ajax(
         $.extend({
